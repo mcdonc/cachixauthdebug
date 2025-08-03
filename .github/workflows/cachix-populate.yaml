@@ -26,7 +26,23 @@ jobs:
         run: |
           nix profile install --accept-flake-config \
             github:cachix/devenv/v${{ matrix.devenv-ver }}
-      - name: Run devenv shell
+      - name: Run devenv shell (fails)
+        run: |
+          set -x
+          log=output.log
+          devenv shell -- true 2>&1 | tee $log
+          ls -al output.log
+          search=(
+            "Binary cache enfoldsystems doesn"
+            "does not appear to be a binary cache"
+          )
+          for string in "${search[@]}"; do
+            if grep -q "$string" "$log"; then
+              echo "Error: "$search" found in "$log""
+              exit 1
+            fi
+          done
+      - name: Run devenv shell again (works)
         run: |
           set -x
           log=output.log
