@@ -6,8 +6,6 @@ import subprocess
 import sys
 import time
 
-DEVENV_VERSION = "1.8"
-
 def test_is_nixos():
     try:
         with open("/etc/os-release", "r") as f:
@@ -72,16 +70,16 @@ def has_devenv():
     return probe(cmd)
 
 
-def has_correct_devenv_version():
+def has_correct_devenv_version(desired):
     cmd = f"{pathadd} && $HOME/.nix-profile/bin/devenv version"
     version = run(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     ).stdout.strip()
     result = True
-    if not DEVENV_VERSION in version:
+    if not desired in version:
         print(
             f'Incorrect devenv version (got "{version}", need '
-            f"{DEVENV_VERSION})"
+            f"{desired})"
         )
         result = False
     return result
@@ -119,7 +117,7 @@ def uninstall(unattended=False):
         print("Nix not installed, skipping uninstall")
 
 
-def install(unattended=False):
+def install(unattended=False, devenv_version="v1.8"):
     if has_nix():
         print("Skipping installation of Nix, already installed")
     else:
@@ -143,7 +141,7 @@ def install(unattended=False):
 
     had_devenv = False
     if has_devenv():
-        if not has_correct_devenv_version():
+        if not has_correct_devenv_version(devenv_version):
             print("Removing old devenv")
             remove_devenv_cmd = f"{pathadd} && nix profile remove devenv"
             run(remove_devenv_cmd)
@@ -154,7 +152,7 @@ def install(unattended=False):
     if not had_devenv:
         install_devenv_cmd = (
             f"{pathadd} && nix profile install "
-            f"--accept-flake-config github:cachix/devenv/v{DEVENV_VERSION}"
+            f"--accept-flake-config github:cachix/devenv/v{devenv_version}"
         )
         run_or_exit(install_devenv_cmd)
     if is_nixos:
@@ -183,8 +181,14 @@ if __name__ == "__main__":
         help="Don't ask questions",
         default=False,
     )
+    ap.add_argument(
+        "--devenv-version",
+        type=str,
+        help="devenv version to install (e.g. 1.8)",
+        default="1.8",
+    )
     args = ap.parse_args()
     if args.uninstall:
         uninstall(args.unattended)
     else:
-        install(args.unattended)
+        install(args.unattended, args.devenv_version)
