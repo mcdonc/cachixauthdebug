@@ -54,7 +54,7 @@ jobs:
       - name: check output.log for failure
         run: |
           set -x
-          log=output2.log
+          log=output.log
           ls -al $log
           search=(
             "Binary cache enfoldsystems doesn"
