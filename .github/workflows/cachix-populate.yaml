@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/determinate-nix-action@main
-      - run: ./bootstrap --unattended --devenv_version=${{ matrix.devenv-ver }}
+      - run: ./bootstrap --unattended --devenv-version=${{ matrix.devenv-ver }}
       - name: Populate cachix cache
         run: |
           df -h
