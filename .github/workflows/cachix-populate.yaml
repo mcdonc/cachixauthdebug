@@ -15,10 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/determinate-nix-action@main
-      - run: ./bootstrap --unattended --devenv-version=${{ matrix.devenv-ver }}
-      - name: Populate cachix cache
+      - name: Install devenv
+      - run: |
+          nix profile install --accept-flake-config \
+            github:cachix/devenv/v${{ matrix.devenv-ver }}
+      - name:
         run: |
-          df -h
           echo $CACHIX_AUTH_TOKEN | base64
           devenv shell -- true
-          df -h
