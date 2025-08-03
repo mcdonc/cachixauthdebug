@@ -26,16 +26,16 @@ jobs:
         run: |
           nix profile install --accept-flake-config \
             github:cachix/devenv/v${{ matrix.devenv-ver }}
-      - name: Run devenv shell (output1.log, fails)
+      - name: Run devenv shell (output.log, does not recognize cache)
         run: |
           set -x
           log=output.log
           devenv shell -- true 2>&1 | tee $log
-      - name: Run devenv shell again (output2.log works)
+      - name: Run devenv shell again (output2.log, recognizes cache)
         run: |
           set -x
           log=output2.log
-          devenv shell -- true 2>&1 | tee $log
+          devenv --no-eval-cache shell -- true 2>&1 | tee $log
       - name: check output2.log for failure
         run: |
           set -x
