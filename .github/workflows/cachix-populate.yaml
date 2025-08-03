@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  populate-enfoldsystems-cachix-cache:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -13,13 +13,15 @@ jobs:
       fail-fast: false
       matrix:
         devenv-ver: [ 1.8.1 ]
-        nix-installer: [ "determinate", "cachix" ]
+        nix-installer: [ "determinate", "cachix-31.5.2" , "cachix-26" ]
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/determinate-nix-action@main
         if: matrix.nix-installer == 'determinate'
       - uses: cachix/install-nix-action@v26
-        if: matrix.nix-installer == 'cachix'
+        if: matrix.nix-installer == 'cachix-26'
+      - uses: cachix/install-nix-action@v31.5.2
+        if: matrix.nix-installer == 'cachix-31.5.2'
       - name: Install devenv
         run: |
           nix profile install --accept-flake-config \
