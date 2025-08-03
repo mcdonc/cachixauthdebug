@@ -29,7 +29,7 @@ jobs:
           log=output.log
           search="Binary cache enfoldsystems doesn\'t exist"
           devenv shell -- true 2>&1 | tee $log
-          if grep -q  $log"; then
-            echo "Error: '$search' found in $log
+          if grep -q  "$log"; then
+            echo "Error: "$search" found in "$log"
             exit 1
           fi
