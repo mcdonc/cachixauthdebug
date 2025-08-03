@@ -36,6 +36,27 @@ jobs:
           set -x
           log=output2.log
           devenv --no-eval-cache shell -- true 2>&1 | tee $log
+      - name: Run devenv shell after deleting .devenv* (output3.log, recognizes cache)
+        run: |
+          set -x
+          log=output3.log
+          rm -rf .devenv*
+          devenv -- true 2>&1 | tee $log
+      - name: check output3.log for failure
+        run: |
+          set -x
+          log=output3.log
+          ls -al $log
+          search=(
+            "Binary cache enfoldsystems doesn"
+            "does not appear to be a binary cache"
+          )
+          for string in "${search[@]}"; do
+            if grep -q "$string" "$log"; then
+              echo "Error: "$search" found in "$log""
+              exit 1
+            fi
+          done
       - name: check output2.log for failure
         run: |
           set -x
