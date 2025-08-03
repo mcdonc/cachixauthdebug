@@ -1,0 +1,25 @@
+name: Populate enfoldsystems cachix cache nightly (hacked to run twice)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  populate-enfoldsystems-cachix-cache-twice:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/determinate-nix-action@main
+      - run: ./bootstrap --unattended
+      - name: Populate cachix cache
+        run: |
+          df -h
+          echo $CACHIX_AUTH_TOKEN | base64
+          devenv --option cachix.push:string "enfoldsystems" shell -- true
+          devenv --option cachix.push:string "enfoldsystems" shell -- true
+          df -h
