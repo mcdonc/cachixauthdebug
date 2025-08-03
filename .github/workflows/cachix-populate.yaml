@@ -21,5 +21,10 @@ jobs:
             github:cachix/devenv/v${{ matrix.devenv-ver }}
       - name: Run devenv shell
         run: |
-          devenv shell -- true
-          echo $CACHIX_AUTH_TOKEN | base64
+          log=output.log
+          search="Binary cache enfoldsystems doesn\'t exist"
+          devenv shell -- true 2>&1 | tee $log
+          if grep -q  $log"; then
+            echo "Error: '$search' found in $log
+            exit 1
+          fi
