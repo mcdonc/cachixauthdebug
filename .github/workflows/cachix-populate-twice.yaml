@@ -1,4 +1,4 @@
-name: Populate enfoldsystems cachix cache nightly (hacked to run twice)
+name: (hacked 2X) Populate enfoldsystems cachix cache nightly
 
 on:
   workflow_dispatch:
