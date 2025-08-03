@@ -34,7 +34,7 @@ jobs:
           ls -al output.log
           search=(
             "Binary cache enfoldsystems doesn"
-            "enfoldsystems.cachix.org\' does not appear to be a binary cache"
+            "does not appear to be a binary cache"
           )
           for string in "${search[@]}"; do
             if grep -q "$string" "$log"; then
