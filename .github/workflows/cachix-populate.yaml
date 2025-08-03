@@ -31,7 +31,7 @@ jobs:
           set -x
           log=output.log
           devenv shell -- true 2>&1 | tee $log
-          ls -al output.log
+          ls -al $log
           search=(
             "Binary cache enfoldsystems doesn"
             "does not appear to be a binary cache"
@@ -45,9 +45,9 @@ jobs:
       - name: Run devenv shell again (works)
         run: |
           set -x
-          log=output.log
+          log=output2.log
           devenv shell -- true 2>&1 | tee $log
-          ls -al output.log
+          ls -al $log
           search=(
             "Binary cache enfoldsystems doesn"
             "does not appear to be a binary cache"
