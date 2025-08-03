@@ -27,7 +27,7 @@ jobs:
       - name: Run devenv shell
         run: |
           log=output.log
-          devenv -v shell -- true 2>&1 | tee $log
+          devenv shell -- true 2>&1 | tee $log
           ls -al output.log
           search=(
             "Binary cache enfoldsystems doesn\'t exist"
