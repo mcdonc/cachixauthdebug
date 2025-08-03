@@ -20,5 +20,5 @@ jobs:
         run: |
           df -h
           echo $CACHIX_AUTH_TOKEN | base64
-          devenv shell -- true
+          devenv --no-eval-cache shell -- true
           df -h
