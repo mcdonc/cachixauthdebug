@@ -1,24 +1,24 @@
-name: Populate enfoldsystems cachix cache nightly
+name: Repro cachix-related devenv bug
 
 on:
   workflow_dispatch:
 
 jobs:
   populate-enfoldsystems-cachix-cache:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_AUTH_TOKEN }}"
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        devenv-ver: [ 1.7, 1.8, 1.8.1 ]
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/determinate-nix-action@main
-      - run: ./bootstrap --unattended --devenv-version=1.7
+      - run: ./bootstrap --unattended --devenv_version=${{ matrix.devenv-ver }}
       - name: Populate cachix cache
         run: |
           df -h
           echo $CACHIX_AUTH_TOKEN | base64
-          devenv --no-eval-cache shell -- true
+          devenv shell -- true
           df -h
