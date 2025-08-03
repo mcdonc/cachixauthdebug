@@ -37,34 +37,34 @@ jobs:
           log=output2.log
           devenv shell -- true 2>&1 | tee $log
       - name: check output2.log for failure
-       run: |
-         set -x
-         log=output2.log
-         ls -al $log
-         search=(
-           "Binary cache enfoldsystems doesn"
-           "does not appear to be a binary cache"
-         )
-         for string in "${search[@]}"; do
-           if grep -q "$string" "$log"; then
-             echo "Error: "$search" found in "$log""
-             exit 1
-           fi
-         done
+        run: |
+          set -x
+          log=output2.log
+          ls -al $log
+          search=(
+            "Binary cache enfoldsystems doesn"
+            "does not appear to be a binary cache"
+          )
+          for string in "${search[@]}"; do
+            if grep -q "$string" "$log"; then
+              echo "Error: "$search" found in "$log""
+              exit 1
+            fi
+          done
       -name: check output.log for failure
        run: |
-         set -x
-         log=output2.log
-         ls -al $log
-         search=(
-           "Binary cache enfoldsystems doesn"
-           "does not appear to be a binary cache"
-         )
-         for string in "${search[@]}"; do
-           if grep -q "$string" "$log"; then
-             echo "Error: "$search" found in "$log""
-             exit 1
-           fi
-         done
+          set -x
+          log=output2.log
+          ls -al $log
+          search=(
+            "Binary cache enfoldsystems doesn"
+            "does not appear to be a binary cache"
+          )
+          for string in "${search[@]}"; do
+            if grep -q "$string" "$log"; then
+              echo "Error: "$search" found in "$log""
+              exit 1
+            fi
+          done
 
       
