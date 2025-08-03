@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  populate-enfoldsystems-cachix-cache-twice:
+  2x-populate-enfoldsystems-cachix-cache:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     env:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/determinate-nix-action@main
       - run: ./bootstrap --unattended
-      - name: Populate cachix cache
+      - name: 2X populate cachix cache
         run: |
           df -h
           echo $CACHIX_AUTH_TOKEN | base64
