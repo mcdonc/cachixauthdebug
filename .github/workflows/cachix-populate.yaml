@@ -27,7 +27,6 @@ jobs:
           nix profile install --accept-flake-config \
             github:cachix/devenv/v${{ matrix.devenv-ver }}
       - name: Run devenv shell (output1.log, fails)
-        conntinue-on-error: true
         run: |
           set -x
           log=output.log
@@ -37,8 +36,9 @@ jobs:
           set -x
           log=output2.log
           devenv shell -- true 2>&1 | tee $log
-      -name: check output2.log for failure
+      - name: check output2.log for failure
        run: |
+         set -x
          log=output2.log
          ls -al $log
          search=(
@@ -53,6 +53,7 @@ jobs:
          done
       -name: check output.log for failure
        run: |
+         set -x
          log=output2.log
          ls -al $log
          search=(
