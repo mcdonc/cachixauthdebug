@@ -41,7 +41,7 @@ jobs:
           set -x
           log=output3.log
           rm -rf .devenv*
-          devenv -- true 2>&1 | tee $log
+          devenv shell -- true 2>&1 | tee $log
       - name: check output3.log for failure
         run: |
           set -x
