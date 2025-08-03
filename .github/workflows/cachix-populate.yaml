@@ -31,11 +31,11 @@ jobs:
           devenv shell -- true 2>&1 | tee $log
           ls -al output.log
           search=(
-            "Binary cache enfoldsystems doesn\'t exist"
-            "\'https://enfoldsystems.cachix.org\' does not appear to be a"
+            "Binary cache enfoldsystems doesn"
+            "enfoldsystems.cachix.org\' does not appear to be a binary cache"
           )
           for string in "${search[@]}"; do
-            if grep -q  "$log"; then
+            if grep -q "$string" "$log"; then
               echo "Error: "$search" found in "$log""
               exit 1
             fi
