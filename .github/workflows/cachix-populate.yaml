@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        devenv-ver: [ "1.8.1", "6563b21105168f90394dfaf58284b078af2d7275" ]
+        devenv-ver: [ "v1.8.1", "6563b21105168f90394dfaf58284b078af2d7275" ]
         nix-installer: [ "determinate", "cachix-31.5.2" , "cachix-26" ]
         os: ["ubuntu-latest", "macos-latest" ]
     steps:
@@ -26,7 +26,7 @@ jobs:
       - name: Install devenv
         run: |
           nix profile install --accept-flake-config \
-            github:cachix/devenv/v${{ matrix.devenv-ver }}
+            github:cachix/devenv/${{ matrix.devenv-ver }}
       - name: Run devenv shell (output.log, does not recognize cache)
         run: |
           set -x
